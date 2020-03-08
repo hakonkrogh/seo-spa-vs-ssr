@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dev": "next",
+    "start": "next start",
+    "build": "next build"
+  },
+  "dependencies": {
+    "@crystallize/content-transformer": "^5.1.0",
+    "@crystallize/react-image": "^3.1.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.2.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
