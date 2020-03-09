@@ -1,5 +1,6 @@
 import React from "react";
 import ContentTransformer from "@crystallize/content-transformer/react";
+import ContentTransformerToText from "@crystallize/content-transformer/toText";
 import Image from "@crystallize/react-image";
 
 import Layout from "../layout";
@@ -15,9 +16,10 @@ export function toDateWithDayMonthAndYear(dateString) {
 }
 
 function Images({ images }) {
-  if (images?.length === 0) {
+  if (!images?.length) {
     return null;
   }
+
   return (
     <div>
       <Image
@@ -41,6 +43,10 @@ function Paragraph({ title, body, images }) {
         .body {
           margin: 0 var(--content-padding) 2rem var(--content-padding);
         }
+
+        .body {
+          line-height: 1.5rem;
+        }
       `}</style>
       <style jsx global>{`
         .body p {
@@ -56,60 +62,66 @@ function Paragraph({ title, body, images }) {
   );
 }
 
-export default ({ title, data: { catalogue } }) => (
-  <Layout title={title}>
-    <style jsx global>{`
-      .top {
-        display: flex;
-        flex-direction: column;
-      }
+export default ({ title, data: { catalogue } }) => {
+  const ps = catalogue?.body?.content?.paragraphs ?? [];
 
-      h1 {
-        order: 2;
-        font-size: 3rem;
-        flex: 1;
-        width: 100%;
-        margin: 4rem auto;
-      }
-      .h1-spacer {
-        display: block;
-        padding: 0 var(--content-padding);
-      }
-      .top-image {
-        order: 1;
-      }
-      .top-image img {
-        max-height: 50vh;
-        width: 100%;
-        object-fit: cover;
-      }
+  const description = ContentTransformerToText(ps[0]?.body.json);
 
-      .h1-spacer,
-      .content {
-        max-width: 900px;
-        margin: 0 auto;
-      }
-    `}</style>
-    <article>
-      <header className="top">
-        <h1>
-          <span className="h1-spacer">{catalogue?.name}</span>
-        </h1>
-        <Image
-          className="top-image"
-          {...catalogue?.topImage?.content?.images?.[0]}
-          sizes="100vw"
-          loading="lazy"
-          width="100%"
-          height="50%"
-        />
-      </header>
+  return (
+    <Layout title={title} description={description}>
+      <style jsx global>{`
+        .top {
+          display: flex;
+          flex-direction: column;
+        }
 
-      <div className="content">
-        {catalogue?.body?.content?.paragraphs?.map((p, i) => (
-          <Paragraph key={i} {...p} />
-        ))}
-      </div>
-    </article>
-  </Layout>
-);
+        h1 {
+          order: 2;
+          font-size: 3rem;
+          flex: 1;
+          width: 100%;
+          margin: 4rem auto;
+        }
+        .h1-spacer {
+          display: block;
+          padding: 0 var(--content-padding);
+        }
+        .top-image {
+          order: 1;
+        }
+        .top-image img {
+          max-height: 50vh;
+          width: 100%;
+          object-fit: cover;
+        }
+
+        .h1-spacer,
+        .content {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+      `}</style>
+      <article>
+        <header className="top">
+          <h1>
+            <span className="h1-spacer">{catalogue?.name}</span>
+          </h1>
+          <Image
+            className="top-image"
+            {...catalogue?.topImage?.content?.images?.[0]}
+            sizes="100vw"
+            loading="lazy"
+            width="100%"
+            height="50%"
+          />
+        </header>
+
+        <div className="content">
+          {ps.map((p, i) => (
+            <Paragraph key={i} {...p} />
+          ))}
+        </div>
+      </article>
+    </Layout>
+  );
+};

@@ -4,19 +4,29 @@ import Link from "next/link";
 
 import Spinner from "./spinner";
 
-export default function Layout({ title = "", children, loading }) {
+export default function Layout({
+  title = "",
+  description = "",
+  children,
+  loading
+}) {
   return (
     <>
       <Head>
         <title>{title}</title>
+        <meta name="description" content={description} />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <style jsx global>{`
         :root {
           --content-padding: 2rem;
         }
         html {
-          font-size: 16px;
-          font-family: Arial, sans-serif;
+          font-size: 18px;
+          font-family: "Open Sans", sans-serif;
         }
         body {
           margin: 0;
