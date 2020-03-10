@@ -50,8 +50,8 @@ function Card({ path, name, createdAt }) {
   );
 }
 
-export default ({ title, data }) => (
-  <Layout title={title}>
+export default ({ data }) => (
+  <Layout>
     <style jsx>{`
       ul {
         display: block;
