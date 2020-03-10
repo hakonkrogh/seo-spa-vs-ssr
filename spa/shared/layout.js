@@ -5,8 +5,8 @@ import Link from "next/link";
 import Spinner from "./spinner";
 
 export default function Layout({
-  title = "",
-  description = "",
+  title = "My tech blog",
+  description = "My blog where I write about technical web-related stuff. Mostly React and friends",
   children,
   loading
 }) {

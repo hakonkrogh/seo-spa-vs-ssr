@@ -2,7 +2,8 @@ import { simplyFetch } from "../graph";
 
 export default ({ path }) =>
   simplyFetch({
-    query: `query BLOGPOST ($path: String!){
+    query: `
+query BLOGPOST ($path: String!){
   catalogue(path: $path) {
     name
     topImage: component(id: "image") {

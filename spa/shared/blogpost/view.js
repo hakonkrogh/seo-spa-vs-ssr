@@ -62,13 +62,13 @@ function Paragraph({ title, body, images }) {
   );
 }
 
-export default ({ title, data: { catalogue } }) => {
+export default ({ data: { catalogue } }) => {
   const ps = catalogue?.body?.content?.paragraphs ?? [];
 
   const description = ContentTransformerToText(ps[0]?.body.json);
 
   return (
-    <Layout title={title} description={description}>
+    <Layout title={catalogue?.name} description={description}>
       <style jsx global>{`
         .top {
           display: flex;
