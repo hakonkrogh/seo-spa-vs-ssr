@@ -7,7 +7,6 @@ import Link from "next/link";
 function Layout({ children }) {
   useEffect(() => {
     const handleRouteChange = url => {
-      console.log("Changed!", url);
       dataLayer.push({
         event: "nextjs-changed-url",
         url
@@ -100,6 +99,22 @@ const App = ({ Component, pageProps }) => {
       <Component {...pageProps} />
     </Layout>
   );
+};
+
+// Implement getInitialProps if your Page components call getInitialProps themselves.
+// https://nextjs.org/docs/advanced-features/custom-app
+App.getInitialProps = async ctx => {
+  // Enable Zeit Now edge caching
+  ctx?.ctx?.res?.setHeader(
+    "cache-control",
+    "s-maxage=1, stale-while-revalidate"
+  );
+
+  const appProps = await NextApp.getInitialProps(ctx);
+
+  return {
+    ...appProps
+  };
 };
 
 export default App;
